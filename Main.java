@@ -28,9 +28,9 @@ public class Main {
 
         char atual = matriz[linha][coluna];
 
-        if (atual == '#') {
-            return 0;
-        }
+        // if (atual == '#') {
+        //     return 0;
+        // }
 
         int somaAtual = 0;
         if (Character.isDigit(atual)) {
@@ -40,6 +40,9 @@ public class Main {
         int melhorSoma = 0;
 
         switch (atual) {
+            case '#':
+                return 0;
+                
             case 'V':
                 int rightV = -1;
                 int leftV = -1;
@@ -113,32 +116,32 @@ public class Main {
                 melhorSoma = Math.max(rightW, Math.max(centerW, leftW));
                 break;
 
-            case '\\':
-                for (int i = 1; linha - i > 0; i++) {
-                    if ((matriz[linha - i][coluna - i] != '|' && matriz[linha - 1][coluna - 1] != '/') && matriz[linha - i][coluna - i] != ' ') {
-                        melhorSoma = buscarMelhorCaminho(linha - i, coluna - i) + somaAtual;
-                        break;
-                    }
-                }
-                break;
+            // case '\\':
+            //     for (int i = 1; linha - i > 0; i++) {
+            //         if ((matriz[linha - i][coluna - i] != '|' && matriz[linha - 1][coluna - 1] != '/') && matriz[linha - i][coluna - i] != ' ') {
+            //             melhorSoma = buscarMelhorCaminho(linha - i, coluna - i) + somaAtual;
+            //             break;
+            //         }
+            //     }
+            //     break;
 
-            case '/':
-                for (int i = 1; linha - i > 1; i++) {
-                    if ((matriz[linha - i][coluna + 1] != '|' && matriz[linha - i][coluna + 1] != '\\') && matriz[linha - i][coluna + 1] != ' ') {
-                        melhorSoma = buscarMelhorCaminho(linha - i, coluna + i) + somaAtual;
-                        break;
-                    }
-                }
-                break;
+            // case '/':
+            //     for (int i = 1; linha - i > 1; i++) {
+            //         if ((matriz[linha - i][coluna + 1] != '|' && matriz[linha - i][coluna + 1] != '\\') && matriz[linha - i][coluna + 1] != ' ') {
+            //             melhorSoma = buscarMelhorCaminho(linha - i, coluna + i) + somaAtual;
+            //             break;
+            //         }
+            //     }
+            //     break;
 
-            case '|':
-                for (int i = 1; linha - i > 0; i++) {
-                    if ((matriz[linha - i][coluna] != '\\' && matriz[linha - i][coluna] != '/') && matriz[linha - i][coluna] != ' ') {
-                        melhorSoma = buscarMelhorCaminho(linha - i, coluna) + somaAtual;
-                        break;
-                    }
-                }
-                break;
+            // case '|':
+            //     for (int i = 1; linha - i > 0; i++) {
+            //         if ((matriz[linha - i][coluna] != '\\' && matriz[linha - i][coluna] != '/') && matriz[linha - i][coluna] != ' ') {
+            //             melhorSoma = buscarMelhorCaminho(linha - i, coluna) + somaAtual;
+            //             break;
+            //         }
+            //     }
+                // break;
 
             default:
                 // System.out.println("Tem um número antes do primeiro V ou W");
@@ -150,23 +153,23 @@ public class Main {
                         }
                     }
                 }
-                if ((matriz[linha - 1][coluna - 1] != '|' && matriz[linha - 1][coluna - 1] != '/') && matriz[linha - 1][coluna - 1] != ' ') {
-                    for (int i = 1; linha - i > 0 && coluna - i > 0; i++) {
-                        if (matriz[linha - i][coluna - i] == '\\' || Character.isDigit(matriz[linha - i][coluna - i]) || matriz[linha - i][coluna] == '#' || matriz[linha - i][coluna] == 'W' || matriz[linha - i][coluna] == 'V') {
-                            melhorSoma = buscarMelhorCaminho(linha - i, coluna - i) + somaAtual;
-                            break;
-                        }
-                    }
-                }
-                if((matriz[linha-1][coluna+1]!='|'&&matriz[linha-1][coluna+1]!='\\')&&matriz[linha-1][coluna+1]!=' '){// /
-                    for (int i = 1; linha-i > 0; i++) {
-                        if(matriz[linha-i][coluna+i]=='/'||Character.isDigit(matriz[linha-i][coluna+i])||matriz[linha-i][coluna]=='#'||matriz[linha-i][coluna]=='W'||matriz[linha-i][coluna]=='V'){
-                            melhorSoma = buscarMelhorCaminho( linha - i, coluna+i) + somaAtual;
-                            break;
-                        }
-                    }
+                // if ((matriz[linha - 1][coluna - 1] != '|' && matriz[linha - 1][coluna - 1] != '/') && matriz[linha - 1][coluna - 1] != ' ') {
+                //     for (int i = 1; linha - i > 0 && coluna - i > 0; i++) {
+                //         if (matriz[linha - i][coluna - i] == '\\' || Character.isDigit(matriz[linha - i][coluna - i]) || matriz[linha - i][coluna] == '#' || matriz[linha - i][coluna] == 'W' || matriz[linha - i][coluna] == 'V') {
+                //             melhorSoma = buscarMelhorCaminho(linha - i, coluna - i) + somaAtual;
+                //             break;
+                //         }
+                //     }
+                // }
+                // if((matriz[linha-1][coluna+1]!='|'&&matriz[linha-1][coluna+1]!='\\')&&matriz[linha-1][coluna+1]!=' '){// /
+                //     for (int i = 1; linha-i > 0; i++) {
+                //         if(matriz[linha-i][coluna+i]=='/'||Character.isDigit(matriz[linha-i][coluna+i])||matriz[linha-i][coluna]=='#'||matriz[linha-i][coluna]=='W'||matriz[linha-i][coluna]=='V'){
+                //             melhorSoma = buscarMelhorCaminho( linha - i, coluna+i) + somaAtual;
+                //             break;
+                //         }
+                //     }
                     
-                }
+                // }
         }
         return melhorSoma;
     }
