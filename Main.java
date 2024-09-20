@@ -13,14 +13,20 @@ public class Main {
     private int colunaInicio;
 
     public static void main(String[] args) throws FileNotFoundException {
+        long inicioTotal = System.nanoTime();
         Main m = new Main();
         String []Casos={"casof30.txt","casof60.txt","casof90.txt","casof120.txt","casof150.txt","casof180.txt","casof250.txt","casof300.txt","casof500.txt"};
+        
         for(String caso : Casos){
+            long inicio = System.nanoTime();
             m.matriz = m.lerArquivo(caso);
-            m.acharInicio(m.matriz);
-            System.out.println("Melhor soma: " + m.PercorrerESomaDoMelhorCaminho(m.linhaInicio, m.colunaInicio)); 
+            m.acharInicio(m.matriz); 
+            System.out.print("Melhor soma: " + m.PercorrerESomaDoMelhorCaminho(m.linhaInicio, m.colunaInicio) + " | "); 
+            long fim = System.nanoTime();
+            System.out.println("Tempo de execução: "+ (fim-inicio));
         }
-
+        long fimTotal = System.nanoTime();
+        System.out.println("Tempo de execução total: "+ (fimTotal-inicioTotal));
     }
 
     public int PercorrerESomaDoMelhorCaminho(int linha, int coluna) {
@@ -28,15 +34,17 @@ public class Main {
         int somaAtual,melhorSoma;
         melhorSoma = 0;
         somaAtual=0;
-
         switch (atual) {
             case '#':
-                return 0;
+                melhorSoma=0;
+                break;
+                
                 
             case 'V':
                 int rightV = -1;
                 int leftV = -1;
                 somaAtual = 0;
+                
                 for (int i = 1; linha - i > 0 && coluna + i < matriz[linha - i].length; i++) {
                     if ((matriz[linha - i][coluna + i] != '|' && matriz[linha - i][coluna + i] != '\\') && matriz[linha - i][coluna + i] != ' ') {
                         if (Character.isDigit(matriz[linha - i][coluna + i])) {
@@ -64,10 +72,12 @@ public class Main {
                 break;
 
             case 'W':
+                
                 int rightW = -1;
                 int leftW = -1;
                 int centerW = -1;
                 somaAtual = 0;
+                
                 for (int i = 1; linha - i > 0 && coluna + i < matriz[linha - i].length; i++) {
                     if ((matriz[linha - i][coluna + i] != '|' && matriz[linha - i][coluna + i] != '\\') && matriz[linha - i][coluna + i] != ' ') {
                         if (Character.isDigit(matriz[linha - i][coluna + i])) {
@@ -99,6 +109,7 @@ public class Main {
                         }
                         if (matriz[linha - i][coluna] == 'V' || matriz[linha - i][coluna] == 'W' || matriz[linha - i][coluna] == '#') {
                             centerW = PercorrerESomaDoMelhorCaminho(linha - i, coluna) + somaAtual;
+                            
                             break;
                         }
                     }
@@ -107,18 +118,19 @@ public class Main {
                 break;
 
             default:
-
+                
                 if (Character.isDigit(atual)) {
                     somaAtual = Character.getNumericValue(atual);
                 }
                 if ((matriz[linha - 1][coluna] != '\\' && matriz[linha - 1][coluna] != '/') && matriz[linha - 1][coluna] != ' ') {
                     for (int i = 1; linha - i > 0; i++) {
-                        if (matriz[linha - i][coluna] == '|' || Character.isDigit(matriz[linha - i][coluna]) || matriz[linha - i][coluna] == '#' || matriz[linha - i][coluna] == 'W' || matriz[linha - i][coluna] == 'V') {
+                        if ( Character.isDigit(matriz[linha - i][coluna]) || matriz[linha - i][coluna] == '#' || matriz[linha - i][coluna] == 'W' || matriz[linha - i][coluna] == 'V') {
                             melhorSoma = PercorrerESomaDoMelhorCaminho(linha - i, coluna) + somaAtual;
                             break;
                         }
                     }
                 }
+                break;
         }
         return melhorSoma;
     }
@@ -150,28 +162,24 @@ public class Main {
             }
         }
         return mat;
-    }
-    
+    }  
     private void acharInicio(char[][] arvoreLida) {
         int totalLinhas = arvoreLida.length;
         int totalColunas = arvoreLida[0].length;
         System.out.print("caso: " + totalColunas + " | ");
         
         int linhaAtual = totalLinhas - 1;
-        while (linhaAtual > 0) {
-            int colunaAtual = 0; 
-            while (colunaAtual < totalColunas) {
-                String valor = String.valueOf(arvoreLida[linhaAtual][colunaAtual]);
-                if (!valor.isBlank()) {
+        int colunaAtual = 0; 
+        while (colunaAtual < totalColunas) {
+            char valor = arvoreLida[linhaAtual][colunaAtual];
+            if (valor!=' ') {
                     linhaInicio = linhaAtual;
                     colunaInicio = colunaAtual;
                     return;
-                }
-                colunaAtual++;
             }
-            linhaAtual--;
+            colunaAtual++;
         }
+       
     }
 
 }
-
